@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Bus System</title>
+  <style>
+    /* ===== Color Palette ===== */
+    :root {
+      --gunmetal: #2E3532;
+      --dust-grey: #D2D4C8;
+      --soft-linen: #E0E2DB;
+      --dark-amaranth: #8B2635;
+      --tea-green: #D3EFBD;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: var(--soft-linen);
+      color: var(--gunmetal);
+    }
+
+    /* ===== Shared Form Styles ===== */
+    .form-container {
+      width: 380px;
+      margin: 80px auto;
+      padding: 25px;
+      background: var(--dust-grey);
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--dark-amaranth);
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid var(--gunmetal);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: var(--dark-amaranth);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: var(--gunmetal);
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .link a {
+      color: var(--dark-amaranth);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* ===== Dashboard ===== */
+    .dashboard {
+      display: none;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: var(--gunmetal);
+      color: white;
+      height: 100vh;
+      float: left;
+      padding: 20px;
+    }
+
+    .sidebar h3 {
+      margin-bottom: 20px;
+      color: var(--tea-green);
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background: var(--dark-amaranth);
+    }
+
+    .main {
+      margin-left: 240px;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--tea-green);
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Login Page ===== -->
+  <div id="login" class="form-container">
+    <h2>Login</h2>
+    <input type="text" id="loginUser" placeholder="Username">
+    <input type="password" id="loginPass" placeholder="Password">
+    <select id="loginRole">
+      <option value="">Select Role</option>
+      <option value="passenger">Passenger</option>
+      <option value="driver">Driver</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button onclick="login()">Login</button>
+    <div class="link">
+      <p>Don't have an account? <a href="Signup page shuttle service.html" onclick="showSignup()">Sign Up</a></p>
+    </div>
+  </div>
+
+  <!-- ===== Signup Page ===== -->
+  <div id="signup" class="form-container" style="display:none;">
+    <h2>Sign Up</h2>
+    <input type="text" id="signupUser" placeholder="Username">
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="password" id="signupPass" placeholder="Password">
+    <input type="password" id="signupConfirm" placeholder="Confirm Password">
+    <select id="signupRole">
+      <option value="">Select Role</option>
+      <option value="passenger">Passenger</option>
+      <option value="driver">Driver</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button onclick="signup()">Sign Up</button>
+    <div class="link">
+      <p>Already have an account? <a href="login page shuttle service.html" onclick="showLogin()">Login</a></p>
+    </div>
+  </div>
+
+  <!-- ===== Passenger Dashboard ===== -->
+  <div id="passengerDashboard" class="dashboard">
+    <div class="sidebar">
+      <h3>Passenger Menu</h3>
+      <a href="#">View Routes</a>
+      <a href="#">Book Tickets</a>
+      <a href="#">Track Bus</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+    <div class="main">
+      <h2>Passenger Dashboard</h2>
+      <div class="card">Welcome Passenger!</div>
+    </div>
+  </div>
+
+  <!-- ===== Driver Dashboard ===== -->
+  <div id="driverDashboard" class="dashboard">
+    <div class="sidebar">
+      <h3>Driver Menu</h3>
+      <a href="#">Assigned Routes</a>
+      <a href="#">Passenger List</a>
+      <a href="#">Update Status</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+    <div class="main">
+      <h2>Driver Dashboard</h2>
+      <div class="card">Welcome Driver!</div>
+    </div>
+  </div>
+
+  <!-- ===== Admin Dashboard ===== -->
+  <div id="adminDashboard" class="dashboard">
+    <div class="sidebar">
+      <h3>Admin Menu</h3>
+      <a href="#">Manage Users</a>
+      <a href="#">Manage Drivers</a>
+      <a href="#">Reports</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+    <div class="main">
+      <h2>Admin Dashboard</h2>
+      <div class="card">Welcome Admin!</div>
+    </div>
+  </div>
+
+  <script>
+    function showSignup() {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("signup").style.display = "block";
+    }
+
+    function showLogin() {
+      document.getElementById("signup").style.display = "none";
+      document.getElementById("login").style.display = "block";
+    }
+
+    function login() {
+      let user = document.getElementById("loginUser").value.trim();
+      let pass = document.getElementById("loginPass").value.trim();
+      let role = document.getElementById("loginRole").value;
+
+      if(user && pass && role) {
+        document.getElementById("login").style.display = "none";
+        if(role === "passenger") {
+          document.getElementById("passengerDashboard").style.display = "block";
+        } else if(role === "driver") {
+          document.getElementById("driverDashboard").style.display = "block";
+        } else if(role === "admin") {
+          document.getElementById("adminDashboard").style.display = "block";
+        }
+      } else {
+        alert("⚠️ Please enter username, password, and select a role!");
+      }
+    }
+
+    function signup() {
+      let user = document.getElementById("signupUser").value.trim();
+      let email = document.getElementById("signupEmail").value.trim();
+      let pass = document.getElementById("signupPass").value;
+      let confirm = document.getElementById("signupConfirm").value;
+      let role = document.getElementById("signupRole").value;
+
+      if(user && email && pass && pass === confirm && role) {
+        alert("✅ Account created successfully! Please login.");
+        showLogin();
+      } else {
+        alert("⚠️ Please fill all fields correctly!");
+      }
+    }
+
+    function logout() {
+      document.querySelectorAll('.dashboard').forEach(div => div.style.display = 'none');
+      document.getElementById("login").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
